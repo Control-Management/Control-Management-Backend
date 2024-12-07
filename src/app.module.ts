@@ -5,6 +5,9 @@ import { User } from './auth/models/user.model';
 import { UserRole } from './auth/models/user_role';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { ContainersModule } from './containers/containers.module';
+import { Container } from './containers/models/container.model';
+import { ContainerType } from './containers/models/container_type';
 
 @Module({
   imports: [
@@ -33,11 +36,12 @@ import { ConfigModule } from '@nestjs/config';
           username: 'root',
           password: '12345678',
           database: 'controlManagementDb',
-          entities: [User, UserRole]
+          entities: [User, UserRole, Container, ContainerType],
         };
       },
     }),
     AuthModule,
+    ContainersModule,
   ],
   controllers: [],
   providers: [],

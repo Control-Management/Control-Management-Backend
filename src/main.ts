@@ -5,6 +5,7 @@ import { AllExceptionFilter } from './common/filters/http-filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
   app.useGlobalFilters(new AllExceptionFilter())
   const config = new DocumentBuilder()
     .setTitle('Control Management Service Documentation')
