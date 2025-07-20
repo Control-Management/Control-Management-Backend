@@ -22,67 +22,93 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Descripción
 
-## Project setup
+Este proyecto es una API REST desarrollada con NestJS para la gestión de contenedores en una empresa de almacenes. Permite la administración de usuarios y contenedores, incluyendo autenticación, registro y operaciones CRUD sobre los contenedores.
 
-```bash
-$ npm install
-```
+---
 
-## Compile and run the project
+## Configuración del proyecto
 
-```bash
-# development
-$ npm run start
+1. Instala las dependencias:
+   ```bash
+   npm install
+   ```
+2. Inicia el servidor en modo desarrollo:
+   ```bash
+   npm run start:dev
+   ```
+3. El servidor estará disponible en: `http://localhost:3000`
 
-# watch mode
-$ npm run start:dev
+---
 
-# production mode
-$ npm run start:prod
-```
+## Endpoints principales
 
-## Run tests
+Base URL: `http://localhost:3000/api/v1`
 
-```bash
-# unit tests
-$ npm run test
+### Autenticación
 
-# e2e tests
-$ npm run test:e2e
+- **POST** `/auth/sign-in`
+  - Iniciar sesión.
+  - Body ejemplo:
+    ```json
+    {
+      "email": "usuario@correo.com",
+      "password": "tu_contraseña"
+    }
+    ```
 
-# test coverage
-$ npm run test:cov
-```
+- **POST** `/auth/sign-up`
+  - Registrar un nuevo usuario.
+  - Body ejemplo:
+    ```json
+    {
+      "email": "usuario@correo.com",
+      "password": "tu_contraseña",
+      "username": "Juan",
+      "thumbnail": "https://url-de-tu-imagen.com/avatar.png"
+    }
+    ```
 
-## Deployment
+### Contenedores
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+- **POST** `/api/v1/containers`  
+  Crea un nuevo contenedor.  
+  **Body de ejemplo:**
+  ```json
+  {
+    "name": "Caja de frutas",
+    "type": "Fruits",
+    "userId": 1,
+    "description": "Contenedor para frutas"
+  }
+  ```
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+- **GET** `/containers`
+  - Obtiene todos los contenedores.
 
-```bash
-$ npm install -g mau
-$ mau deploy
-```
+- **GET** `/containers/:userId`
+  - Obtiene contenedores por ID de usuario.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+- **GET** `/containers/:type`
+  - Obtiene contenedores por tipo.
 
-## Resources
+- **PUT** `/containers/:id`
+  - Actualiza un contenedor por ID.
+  - Body ejemplo:
+    ```json
+    {
+      "nombre": "Contenedor Actualizado",
+      "tipo": "tipoB"
+    }
+    ```
 
-Check out a few resources that may come in handy when working with NestJS:
+- **DELETE** `/containers/:id`
+  - Elimina un contenedor por ID.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+---
 
 ## Support
 

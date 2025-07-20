@@ -4,7 +4,7 @@ import { createDatabase } from 'typeorm-extension';
 import { User } from './auth/models/user.model';
 import { UserRole } from './auth/models/user_role';
 import { AuthModule } from './auth/auth.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ContainersModule } from './containers/containers.module';
 import { Container } from './containers/models/container.model';
 import { ContainerType } from './containers/models/container_type';
@@ -13,29 +13,32 @@ import { ContainerType } from './containers/models/container_type';
   imports: [
     ConfigModule.forRoot({
       envFilePath: ['.env.development'],
-      isGlobal: true, 
+      isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
-      useFactory: async () => {
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
         await createDatabase({
           ifNotExist: true,
           options: {
             type: 'mysql',
-            host: 'localhost',
-            port: 3306,
-            username: 'root',
-            password: '12345678',
-            database: 'controlManagementDb',
+            host: configService.get<string>('MYSQL_HOST'),
+            port: parseInt(configService.get<string>('MYSQL_PORT'), 10),
+            username: configService.get<string>('MYSQL_USER'),
+            password: configService.get<string>('MYSQL_PASSWORD'),
+            database: configService.get<string>('MYSQL_DATABASE'),
+            entities: [User, UserRole, Container, ContainerType],
           },
         });
 
         return {
           type: 'mysql',
-          host: 'localhost',
-          port: 3306,
-          username: 'root',
-          password: '12345678',
-          database: 'controlManagementDb',
+          host: configService.get<string>('MYSQL_HOST'),
+          port: parseInt(configService.get<string>('MYSQL_PORT'), 10),
+          username: configService.get<string>('MYSQL_USER'),
+          password: configService.get<string>('MYSQL_PASSWORD'),
+          database: configService.get<string>('MYSQL_DATABASE'),
           entities: [User, UserRole, Container, ContainerType],
         };
       },
